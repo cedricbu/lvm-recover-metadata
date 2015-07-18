@@ -31,6 +31,7 @@ use 5.16.0;
 use Getopt::Std;
 use Fcntl qw( SEEK_SET SEEK_CUR );
 use File::Basename;
+use experimental qw(smartmatch);
 
 
 ### CONSTANTS ###
