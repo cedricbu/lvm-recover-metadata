@@ -341,7 +341,7 @@ while ($offset < $max * $bsize) {  ## Until we go beyond our limits
 	#          - ext/XFS file systems
 	#          - LVM metadata
 	#          - Partition table
-	if ($block !~ m/^[[:word:]-]+ {/ ) {
+	if ($block !~ m/^[[:word:]-]+ \{/ ) {
 		$smthunexpected = 1;
 		next;
 	}
@@ -373,7 +373,7 @@ while ($offset < $max * $bsize) {  ## Until we go beyond our limits
 	#   - the 'g' flag is there because we want the string position pointer to step in, lex-like.
 	#   - $1 will have the VG name
 	#   - in theory, we should not fail here since we checked that above already
-	if ($block !~ m/^([[:word:]-]+) {/g) {
+	if ($block !~ m/^([[:word:]-]+) \{/g) {
                 $smthunexpected = 1;
                 next;
         }
@@ -399,7 +399,7 @@ while ($offset < $max * $bsize) {  ## Until we go beyond our limits
 			}
 
 			### PART 1 : Entering a contexts
-			when (/physical_volumes {/) {
+			when (/physical_volumes \{/) {
 				if ($context == CTX_VG) {
 					say "DBG: Entering List PV context" if $DEBUG >= 3;
 					$context = CTX_LPV;
@@ -408,7 +408,7 @@ while ($offset < $max * $bsize) {  ## Until we go beyond our limits
 					$smthunexpected = 1;
 				}
 			}
-			when (/logical_volumes {/) {
+			when (/logical_volumes \{/) {
 				if ($context == CTX_VG) {
 					say "DBG: Entering List LV context" if $DEBUG >= 3;
 					$context = CTX_LLV;
@@ -417,7 +417,7 @@ while ($offset < $max * $bsize) {  ## Until we go beyond our limits
 					$smthunexpected = 1;
 				}
 			}
-			when (/segment([0-9]+) {/) {
+			when (/segment([0-9]+) \{/) {
 				if ($context == CTX_LV) {
 					say "DBG: Entering segment context [$1]" if $DEBUG >= 3;
 					$context = CTX_SEG;
@@ -426,7 +426,7 @@ while ($offset < $max * $bsize) {  ## Until we go beyond our limits
 					$smthunexpected = 1;
 				}
 			}
-			when (/^([[:graph:]]+) {$/) { # 1 word (no space), followed by 1 space and a curly bracket
+			when (/^([[:graph:]]+) \{$/) { # 1 word (no space), followed by 1 space and a curly bracket
 				given ($context) {
 					when (CTX_LPV) {
 						say "DBG: Entering PV context ($1)" if $DEBUG >= 3;
