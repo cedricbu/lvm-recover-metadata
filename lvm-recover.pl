@@ -178,7 +178,7 @@ sub vgDataToStr {
 		## TODO : add the # dates, megabytes, etc.
 		$ret .= "\n";
 
-		$i++ if /({|\[)$/;
+		$i++ if /(\{|\[)$/;
 
 	}
 
